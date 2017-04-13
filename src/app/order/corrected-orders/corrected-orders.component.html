@@ -1,0 +1,73 @@
+<table class="table table-striped table-condensed" [mfData]="filteredCorrectedOrdersList" #mf="mfDataTable" [mfRowsOnPage]="12">
+  <thead>
+      <tr>
+        <th>
+          <mfDefaultSorter by="siebelOrderId"><span style="color:black">Order Id</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="orderType"><span style="color:black">Order Type</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="siebelCreationDate"><span style="color:black">Order Date</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="siebelCreationDate"><span style="color:black">Siebel</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="siebelCreationDate"><span style="color:black">Fusion</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="siebelCreationDate"><span style="color:black">Cordys</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="siebelCreationDate"><span style="color:black">Acknowledged</span></mfDefaultSorter>
+        </th>
+      </tr>
+    </thead>
+  <tbody>
+    <tr *ngFor="let order of mf.data">
+       <td>{{order.siebelOrderId}}</td>
+        <td>{{order.orderType}}</td>
+        <td>{{order.siebelCreationDate}}</td>
+        <td><span class="label label-success">
+         {{order.siebelOrderDetails.siebelStatus}}</span></td>
+        <td><span class="label label-success"
+             [class.label-danger]="order.fusionOrderDetails?.fusionStatus == 'ERROR'"
+             [class.label-success]="order.fusionOrderDetails?.fusionStatus == 'NEW' || order.fusionOrderDetails?.fusionStatus == 'IN_PROGRESS'"
+             [class.label-default]="order.fusionOrderDetails?.fusionStatus == 'NOT_FOUND'" >
+            {{order.fusionOrderDetails?.fusionStatus}}
+            </span>
+            <span *ngIf="order.corrections?.fusionCorrected === true" class="glyphicon glyphicon-ok error " aria-hidden="true"></span>
+            </td>
+        <td>
+          <!--<span class="label label-default status" 
+              [class.label-danger]="order.cordysOrderDetails?.cordysDerivedStatus == 'RED'"
+              [class.label-success]="order.cordysOrderDetails?.cordysDerivedStatus == 'GREEN'"
+            [class.label-warning]="order.cordysOrderDetails?.cordysDerivedStatus == 'AMBER'">
+            {{order.cordysOrderDetails?.cordysOrderStatus ? order.cordysOrderDetails?.cordysOrderStatus : 'NOT FOUND'}}</span> -->
+             <span class="label label-default status" 
+            [class.label-danger]="order.cordysOrderDetails?.cordysDerivedStatus == 'RED'" 
+            [class.label-success]="order.cordysOrderDetails?.cordysDerivedStatus == 'GREEN'"
+            [class.label-warning]="order.cordysOrderDetails?.cordysDerivedStatus == 'AMBER'">
+           
+            {{order.cordysOrderDetails?.cordysStatus ? order.cordysOrderDetails?.cordysStatus : 'NOT FOUND'}}
+            <!--
+               {{order.cordysOrderDetails.cordysStatus}} 
+              {{order.cordysOrderDetails?.cordysOrderStatus ? order.cordysOrderDetails?.cordysOrderStatus : 'NOT FOUND'}} -->
+          </span>
+            <span *ngIf="order.corrections?.cordysCorrected === true" class="glyphicon glyphicon-ok error " aria-hidden="true"></span>
+            </td>
+        <td class="col-xs-1">
+          <i class="glyphicon glyphicon-edit"></i>
+        </td>
+    </tr>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td colspan="10">
+        <mfBootstrapPaginator></mfBootstrapPaginator>
+      </td>
+    </tr>
+  </tfoot>
+</table>

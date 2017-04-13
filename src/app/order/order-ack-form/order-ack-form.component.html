@@ -1,0 +1,63 @@
+<div class="row" >
+	<div class="col-md-1">
+	</div>
+	<div class="col-md-10 well">
+		<form #orderAckForm="ngForm" >
+			<fieldset>
+        <div >
+          	<label>Order No</label> {{order.siebelOrderId}}            
+				</div><br>     
+      <!--  <div class="form-group">          	
+            <label>Failed in Fusion</label>
+        </div>  -->
+			</fieldset>
+		<fieldset>
+
+		<div >
+			<label>Failed in:</label>
+						<select class="form-control" name="selectedSystem" style="width:50%; height: 25px; padding: 3px 10px; " id="selectedSystem" placeholder="Select System"  [disabled]="!isAckAccessible" (change)="updateSelectedValue($event.target.value)" [ngModel]="selectedSystem">
+			<option  value="Fusion" selected={{order.corrections.fusionAcknowledged}} >FUSION</option>
+			<option  value="Siebel" selected={{order.corrections.siebelAcknowledged}} >SIEBEL</option>
+			<option value="Cordys" selected={{order.corrections.cordysAcknowledged}} >CORDYS</option>
+
+
+
+
+								<!--	<option  value="Fusion === defaultStr ? null : Fusion" selected={{order.corrections.fusionAcknowledged}}>FUSION</option>
+									<option  [value]="Siebel" selected={{order.corrections.siebelAcknowledged}}>SIEBEL</option>
+									<option [value]="Cordys" selected={{order.corrections.cordysAcknowledged}}>CORDYS</option>-->									
+              </select>
+          </div>
+					  <br>
+        </fieldset> 
+        <fieldset>
+					<!-- <div class="container-fluid row" *ngIf=" successMessage">
+        
+        <div  [hidden]="!successMessage">
+          <span style="font-weight: bold;" class="success">{{successMessage}} </span>
+        </div>
+      </div> -->
+			
+				<div >
+					<label for="eta">ETA:</label>
+					<input type="text" [disabled]="!isAckAccessible" name="eta" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" class="form-control" required id="eta" placeholder="ETA" 
+           [(ngModel)]="order.corrections.eta"  />
+						
+				</div><br>
+        <div >
+					<label for="workaround">Workaround:</label>
+					<input type="text" [disabled]="!isAckAccessible" class="form-control"  id="workaround" placeholder="Workaround" name="workaround"
+           [(ngModel)]="order.corrections.workaround"/>
+				</div><br>
+        <div >
+					<label for="remarks">Remarks:</label>
+					<textarea [disabled]="!isAckAccessible" class="form-control" id="remarks" placeholder="Remarks" name="remarks"
+           [(ngModel)]="order.corrections.comment"></textarea> 
+				</div><br>
+			</fieldset>
+			<button type="submit" (click)="onSubmit()" [disabled]="!orderAckForm.form.valid"class="btn btn-primary" >Submit</button> 
+		</form> 
+	</div>
+	<div class="col-md-1">
+	</div>
+</div>

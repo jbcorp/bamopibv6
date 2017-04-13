@@ -1,0 +1,23 @@
+<div id="footer" class="app-footer" 
+        style="bottom:0px;position: fixed; height: auto; width: 100%; z-index: 102;">
+  <div class="section-content">
+    <ul class="list-inline">
+      <li> <button class="btn btn-primary btn-xs u-margin-Rs" [disabled]="!isAcknowledgeAccessible()"style="color: #fff!important;  background-color: #79589F;  border-radius: 4px;
+        border: none; transition: background-color ease .2s; font-weight: 700;font-size: 12px;"
+         (click)="syncMethod()" >Sync</button></li>
+      <li>Version: 1.0.0-SNAPSHOT</li>      
+     <!--  <li>Data Updated @ {{syncDate |date:'dd-MM-yyyy'}}</li> -->
+       <!--<li></li> -->
+    </ul>
+    <ul class="list-inline footer-actions">
+      <li>
+        <a class="btn btn-primary btn-xs u-margin-Rs" style="color: #fff!important;  background-color: #79589F;  border-radius: 4px;
+        border: none; transition: background-color ease .2s; font-weight: 700;font-size: 12px;"         
+         href="mailto:ashwini.murge@kpn.com;kapil.gidwani@kpn.com" >Support</a>
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>© 2017 KPN</li>
+    </ul>
+  </div>
+</div>

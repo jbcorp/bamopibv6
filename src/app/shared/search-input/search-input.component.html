@@ -1,0 +1,95 @@
+<form class="navbar-form navbar-right">
+
+     <span>
+        <i class="fa fa-filter fa-lg" (click)="showSearchForm()" data-uib-tooltip="Filter"
+     data-tooltip-placement="left"></i> 
+ 
+</span>
+
+    <div class="form-group has-feedback">
+        <input type="text" autoGrow class="form-control " placeholder="Search Orders" 
+        (input)="emitEvent($event)" (blur)="emitEvent($event)" [(ngModel)]="siebelId" name="searchOrderAutoGrow"/>
+        <i class="glyphicon glyphicon-search form-control-feedback"></i>
+    </div>
+    
+</form>
+<!--<popover-content #myPopover 
+                title="Popover title" 
+                placement="left"
+                [animation]="true" 
+                [closeOnClickOutside]="true" >
+    <b>Very</b> <span style="color: #C21F39">Dynamic</span> <span style="color: #00b3ee">Reusable</span>
+    <b><i><span style="color: #ffc520">Popover With</span></i></b> <small>Html support</small>.
+</popover-content> -->
+
+
+<!--Search panel-->
+
+
+<modal #searchModal  [cssClass]="searchModal" [animation]="true"  (onClose)="closeSearch" style="margin-left: 932px;width: 348px;">
+	<modal-body>
+		<form >
+			<span class="panel-color" class="removeIcon">
+				<a  (click)="closeSearch()">
+          <span class="glyphicon glyphicon-remove"></span>
+        </a>
+			</span>
+		<br/>
+		<table class="table-width">
+		<tr>
+	<td>
+		<span class="panel-color">
+        <md-input-container >
+        <input class="input-box" mdInput placeholder="CO ID" [(ngModel)]="searchOrderModel.coId" name="coId">
+        </md-input-container></span> </td>
+	<td>
+		<span class="panel-color">
+        <md-input-container >
+        <input class="input-box" mdInput placeholder="Siebel ID" [(ngModel)]="searchOrderModel.siebelId" name="siebelId">
+        </md-input-container></span> </td>
+</tr>
+	
+		
+	<!--		<span class="panel-color">
+        <md-input-container >
+        <input  class="input-box" mdInput placeholder="Siebel Order IDS" [(ngModel)]="searchOrderModel.siebelOrderId" name="siebelOrderId">
+        </md-input-container></span>
+			<span class="panel-color">
+        <md-input-container >
+        <input class="input-box"  mdInput placeholder="SNI Order ID" [(ngModel)]="searchOrderModel.sniOrderId" name="sniOrderId">
+        </md-input-container></span>
+			<br> -->
+			
+	<tr >
+		<td class="panel-color">
+			<b class="relative-margin">Siebel Status:</b></td>
+		<td style="padding-bottom:10px"class="form-group">
+			<select  class=" form-control select-dropdown " data-width="130px" [(ngModel)]="searchOrderModel.selectedSiebelStatus" name="selectedSiebelStatus">
+                <option class="panel-color" *ngFor="let s of siebelStatus" [value]="s.value">{{s.viewValue}}</option>
+           </select> 
+		  
+			
+		</td>
+	</tr>
+	<tr >
+		<td class="panel-color">
+			<b class="relative-margin">Fusion Status:</b></td>
+		<td style="padding-bottom:10px" class="form-group"><select class="  form-control select-dropdown" data-width="130px" [(ngModel)]="searchOrderModel.selectedFusionStatus" name="selectedFusionStatus">
+                <option class="panel-color" *ngFor="let f of fusionStatus" [value]="f.value">{{f.viewValue}}</option>
+              </select>
+		</td>
+	</tr>
+	<tr >
+		<td class="panel-color">
+			<b>Cordys Status:</b></td>
+		<td style="padding-bottom:10px"><select class="form-control select-dropdown "  [(ngModel)]="searchOrderModel.selectedCordysStatus" name="selectedCordysStatus">
+                <option class="panel-color" *ngFor="let c of cordysStatus" [value]="c.value">{{c.viewValue}}</option>
+              </select>
+		</td>
+	</tr>
+</table> <br>
+			<button (click)="search()" class="btn btn-primary search-button" type="submit">Search</button>
+			<button (click) ="resetAll()" type="reset" class="btn btn-primary clear-button" >Reset</button>
+		</form>
+	</modal-body>
+</modal>

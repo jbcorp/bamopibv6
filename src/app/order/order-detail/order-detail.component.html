@@ -1,0 +1,155 @@
+<div >
+  <div class="demo-progress-bar-container">
+  <img  *ngIf="visible" src="assets/images/loading.gif" alt="Processing" title="Processing" style="width:80px;position:absolute;margin-left:-30px;"/>
+   
+ </div>
+<table class="table table-striped table-condensed" [mfData]="data" #mfOrder="mfDataTable" [mfRowsOnPage]="5" style="width:60%;margin-left:280px;">
+    <thead>
+    <tr>
+      <th>
+          <mfDefaultSorter by="siebelOrderId"><span style="color:black">Order Id</span></mfDefaultSorter>
+        </th>
+         <th>
+          <mfDefaultSorter by="siebelOrderId"><span style="color:black">Siebel Order Status</span></mfDefaultSorter>
+        </th>
+         <th>
+          <mfDefaultSorter by="siebelOrderId"><span style="color:black">Fusion Order Status</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="siebelOrderId"><span style="color:black">Cordys Order Status</span></mfDefaultSorter>
+        </th>
+    </tr>
+</thead>
+<tbody>
+  <tr>
+  <td>{{order?.siebelOrderId}}</td>
+<td>
+          <span class="label label-success status" 
+            >
+            {{order?.siebelOrderDetails?.siebelStatus ? order.siebelOrderDetails.siebelStatus : 'NOT FOUND'}}
+          </span>
+        </td>
+<td>
+          <span class="label label-default status" 
+             [class.label-danger]="order?.fusionOrderDetails?.fusionStatus == 'ERROR'" [class.label-success]="order?.fusionOrderDetails?.fusionStatus == 'NEW' || order?.fusionOrderDetails?.fusionStatus == 'IN_PROGRESS'">
+            {{order?.fusionOrderDetails?.fusionStatus ? order.fusionOrderDetails.fusionStatus : 'NOT FOUND'}}
+          </span>
+        </td>
+<td>
+          <span class="label label-default status" [class.label-danger]="order?.cordysOrderDetails?.cordysDerivedStatus == 'RED'" 
+            [class.label-success]="order?.cordysOrderDetails?.cordysDerivedStatus == 'GREEN'"
+            [class.label-warning]="order?.cordysOrderDetails?.cordysDerivedStatus == 'AMBER'"
+            >
+            {{order?.cordysOrderDetails?.cordysStatus ? order.cordysOrderDetails.cordysStatus : 'NOT FOUND'}}
+          </span>
+        </td>      
+  </tr>  
+</tbody>
+</table>
+<div>
+<table class="table table-striped table-condensed" [mfActivePage]="page" [mfData]="order?.cordysOrderDetails?.functionalProducts" #mf="mfDataTable" [mfRowsOnPage]="10" >
+    <thead>
+    <tr>
+         <th>
+          <span style="color:black"></span>
+        </th>
+         <th>
+          <span style="color:black">Com Order Id</span>
+        </th>
+        <th>
+        <span style="color:black">Order Line Id</span>
+        </th>
+         <th>
+          <span style="color:black">Sni Order Id</span>
+        </th>
+        <th>
+          <span style="color:black">Functional Product Type</span>
+        </th>
+        <th>
+          <span style="color:black">Functional Product Status</span>
+        </th>
+        <th>
+          <span style="color:black">Action</span>
+        </th>
+        <th>
+          <span style="color:black">Identifier</span>
+        </th>
+        <th>
+          <span style="color:black">Xml</span>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let functionalProduct of mf.data;let idx = index" [class.checkedRow]="functionalProduct.isChecked">
+      <td>
+        <input type="radio" name="radiogroup" value="functionalProduct" [checked]="idx==0">
+        <span class="glyphicon glyphicon-pencil" style="cursor:pointer;" (click)="onChange(functionalProduct)" ></span>
+    </td>
+        
+        <td>{{functionalProduct?.comOrderId}}</td>
+        <td>{{functionalProduct?.orderLineId}}</td>
+        <td>{{functionalProduct?.sniOrderId}}</td>
+        <td>{{functionalProduct?.functionalProductType}}</td>
+        <td>
+          <span *ngIf="!functionalProduct.isChecked">
+            {{functionalProduct?.functionalProductStatus}}
+          </span>
+          <table>
+            <tr><td>
+         <select class="form-control select-dropdown" style="width: 55%;" data-width="130px" *ngIf="functionalProduct.isChecked" [(ngModel)]="selectedFunctionalProductStatus" name="selectedFunctionalProductStatus">
+                <option class="panel-color" *ngFor="let f of functionalProductStatus" [value]="f.value">{{f.viewValue}}</option>
+              </select></td>
+              <td>
+              <span (click)="updateFunctionalProduct(functionalProduct)" *ngIf="functionalProduct.isChecked">
+             <i class="fa fa-check" (click)="updateFunctionalProduct(functionalProduct)"  aria-hidden="true" style="color:green"></i>
+             <i class="fa fa-times" (click)="cancelFunctionalProduct(functionalProduct)" aria-hidden="true" style="color:red"></i>
+              </span>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td>{{functionalProduct?.action}}</td>
+        <td>{{functionalProduct?.identifier}}</td>
+        <td>
+          <span>				
+					 <i class="fa fa-file-excel-o" style="color:#79589F" 
+						 (click)="showSNIInputXml(functionalProduct?.sniInputXml)" aria-hidden="true"></i>					 
+					</span>
+        </td>
+    </tr>
+    </tbody>
+    
+     <tfoot>
+      <tr>
+        <td colspan="10">
+          <mfBootstrapPaginator style="color:green"></mfBootstrapPaginator>
+        </td>
+      </tr>
+    </tfoot>
+</table>
+</div>
+<!--<button *ngIf="order?.cordysOrderDetails?.cordysStatus != null" 
+ class="btn btn-primary search-button" (click)="retrigger()" style="background-color: #6e5da8;
+border-color: #6e5da8;margin-left:450px;margin-top:-170px;" type="submit" >ReTrigger</button>-->
+
+<button class="btn btn-primary btn-xs u-margin-Rs" style="color: #fff!important;  background-color: #79589F;  border-radius: 4px;
+        border: none; transition: background-color ease .2s; font-weight: 700;font-size: 12px;position:absolute;margin-top:50px;"         
+         (click)="retrigger()" [disabled]="visible" >Port-in Sync</button>
+<button class="btn btn-primary btn-xs u-margin-Rs" style="color: #fff!important;  background-color: #79589F;  border-radius: 4px;
+        border: none; transition: background-color ease .2s; font-weight: 700;font-size: 12px;position:absolute;margin-top:50px;margin-left:85px;"         
+         (click)="retrigger()" [disabled]="visible">ReTrigger</button>         
+
+
+
+</div>
+<modal #sniDetailInputModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">SNI Input for Functional Product</h4>
+    </modal-header>
+    <modal-body>
+	   {{sniInputXml}}
+    </modal-body>
+    <modal-footer> 
+		<button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
+	</modal-footer>
+</modal>

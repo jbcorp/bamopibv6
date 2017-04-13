@@ -1,0 +1,103 @@
+<app-spinner [visible]="isLoading"></app-spinner>
+<div>
+  <table *ngIf="!isLoading" class="table table-striped table-condensed" [mfData]="filteredOpenOrdersList" #mf="mfDataTable" [mfRowsOnPage]="18">
+    <thead>
+      <tr>
+        <th>
+          <mfDefaultSorter by="siebelOrderId"><span style="color:black">Order Id</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="orderType"><span style="color:black">Order Type</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="siebelCreationDate"><span style="color:black">Order Date</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="orderType"><span style="color:black">Siebel</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="orderType"><span style="color:black">Fusion</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="orderType"><span style="color:black">Cordys</span></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="orderType"><span style="color:black">Acknowledged</span></mfDefaultSorter>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!--   <tr *ngFor="let order of mf.data | filterOrder: searchTermEntered"> -->
+      <tr *ngFor="let order of mf.data">
+        <td (click)="onSelect(order)" style="cursor:pointer;">
+          {{order.siebelOrderId}}
+           </td>
+        <td>{{order.orderType}}</td>
+        <td>{{order.siebelCreationDate|date:'dd-MM-yyyy'}}</td>
+        <td><span class="label label-success status">
+         {{order.siebelOrderDetails.siebelStatus}}</span></td>
+        <td><span class="label label-default status" [class.label-danger]="order.fusionOrderDetails?.fusionStatus == 'ERROR'" [class.label-success]="order.fusionOrderDetails?.fusionStatus == 'NEW' || order.fusionOrderDetails?.fusionStatus == 'IN_PROGRESS'">
+            {{order.fusionOrderDetails ? order.fusionOrderDetails?.fusionStatus : 'NOT FOUND'}}
+            </span></td>
+        <td>
+
+          <span class="label label-default status" 
+            [class.label-danger]="order.cordysOrderDetails?.cordysDerivedStatus == 'RED'" 
+            [class.label-success]="order.cordysOrderDetails?.cordysDerivedStatus == 'GREEN'"
+            [class.label-warning]="order.cordysOrderDetails?.cordysDerivedStatus == 'AMBER'">
+           
+            {{order.cordysOrderDetails?.cordysStatus ? order.cordysOrderDetails?.cordysStatus : 'NOT FOUND'}}
+            <!--
+               {{order.cordysOrderDetails.cordysStatus}} 
+              {{order.cordysOrderDetails?.cordysOrderStatus ? order.cordysOrderDetails?.cordysOrderStatus : 'NOT FOUND'}} -->
+          </span>
+
+           <span *ngIf="order.cordysOrderDetails?.cordysStatus">
+
+            <i class="fa fa-plus-circle" style="color:#79589F"
+             *ngIf="!order.showCordysDetails"
+             (click)="toggleShowCordysDetails(order)"></i>
+           
+            <span *ngIf="order.showCordysDetails">
+              <i class="fa fa-minus-circle" style="color:#79589F" (click)="toggleShowCordysDetails(order)"></i>
+              <cordys-details [order]="order"></cordys-details>
+            </span>
+           </span>
+        </td>
+        <td class="col-xs-1" style="cursor:pointer"> 
+         <div (click)="showAcknowledgementForm(order)"  >              
+         <i class="glyphicon glyphicon-check"     *ngIf="isAcknowledged(order)"></i>
+           <i class="glyphicon glyphicon-unchecked" *ngIf="!isAcknowledged(order)"></i>   
+        
+       <!--<small>
+   {{order.corrections?.correctionTime | date:'dd/MM/yyyy'}} {{order.corrections?.correctionTime | date: 'shortTime'}}
+  </small> 
+  
+   <input type="checkbox"  
+       (click)="showAcknowledgementForm(order)" /> -->
+          </div>  
+               
+                  
+        </td>
+      </tr>
+    </tbody>
+
+    <tfoot>
+      <tr>
+        <td colspan="10">
+          <mfBootstrapPaginator style="color:#79589F"></mfBootstrapPaginator>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<modal #ackFormPlaceholderModal [animation]="true" [size]="sm">
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Order Failure Acknowledgement</h4>
+    </modal-header>
+    <modal-body>
+      <app-order-ack-form   [isClicked]="isClicked" [isAckAccessible]="isAckAccessible" [order]="selectedOrderForAck" [modal]="modal"></app-order-ack-form>
+	  </modal-body>  
+</modal>

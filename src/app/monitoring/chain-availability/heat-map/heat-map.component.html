@@ -1,0 +1,119 @@
+
+<div class="container-fluid row" [hidden]="!isLoading">
+	<div style="text-align: center;">
+		<span class="glyphicon glyphicon-repeat normal-right-spinner"></span>
+	</div>
+</div>
+
+<div class="container-fluid row" *ngIf="errorMessage">
+	<div class="col-sm-12">
+		<span style="font-weight: bold;" class="error" >Error: {{errorMessage}} </span>
+	</div>
+</div>
+<div style="background-color:white;height:100%; padding-left: 5%;margin-top:10px;">
+	<div class="w3-card-4 mainContainer">
+		<header id="header" class="container headerStyle">ONECRM
+			
+				<div id="circle" [ngClass]="getOneCRMStatusCss()"></div>
+			
+
+		</header>
+		<div class="container">
+			<br>
+			<div class="col-sm-6" align="center" *ngFor="let object of onecrmList" style=" padding-bottom: 1%; ">
+				<div style="height:40px; width:90%; border-radius: 5px; font-weight: bold; color:white;  " [ngClass]="getStatusCss(object.status,object.chainStatus)"
+					align="center"><span class="centered" style="vertical-align:bottom;">{{object.nodeID}}</span> </div>
+			</div>
+		</div>
+	</div>
+
+	<div>
+		<h1 style="padding-left:20%;margin-top:-5px; margin-bottom:-15; font-size: 30px;">&#8691;</h1>
+
+	</div>
+
+	<div class="w3-card-4 mainContainer ">
+		<header id="header" class="container headerStyle">
+			FUSION
+				<div id="circle" [ngClass]="getFusionStatusCss()"></div>
+			
+
+		</header>
+		<div class="container">
+			<br>
+			<div class="col-sm-6" align="center" *ngFor="let object of fusionList" style="height:30%; padding-bottom: 1%; padding-top: -5%;">
+				<div style="height:40px; width:90%; border-radius: 5px;font-weight: bold; color:white" [ngClass]="getStatusCss(object.status,object.chainStatus)"
+					align="center"><span class="centered">{{object.nodeID}}</span> </div>
+			</div>
+		</div>
+	</div>
+	<div class="container" style="padding-left: 0%">
+		<div class="left" style="width:60%">
+			<div>
+				<h1 style="padding-left:20%; margin-top:-5px;  font-size: 30px;">&#8691;</h1>
+			</div>
+		</div>
+		<div class="right" style="padding-left: 1%; width:30%">
+			<div>
+				<h1 style="padding-left:20%; font-size: 30px; margin-top:-5px; ">&#8691;</h1>
+			</div>
+		</div>
+	</div>
+
+	<!--<div>
+		<h1 style="padding-left:20%">&#x21b4;</h1>
+	</div>-->
+	<div class="container" style="padding-left: 0%; margin-bottom:-10px; width:100%">
+		<div class="left" style="width:45%; margin-top:-10px; margin-bottom:-15px;">
+
+			<div class="w3-card-4 border">
+				<header id="header" class="container headerStyle">
+					CORDYS
+						<div id="circle" [ngClass]="getCordysStatusCss()"></div>
+					</header>
+				<div class="container">
+					<br>
+					<div class="col-sm-6" align="center" *ngFor="let object of cordysList" style="height:30%; padding-bottom: 1%; padding-top: -5%;">
+						<div style="height:30px; width:80%; border-radius: 5px; font-weight: bold; color:white" [ngClass]="getStatusCss(object.status,object.chainStatus)"
+							align="center"><span class="centered">{{object.nodeID}}</span> </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="right" style="padding-left: 1%; width:36%; margin-top:-10px; margin-bottom:-10px; margin-right:-10px;">
+			<div class="w3-card-4 border ">
+				<header id="header" class="container headerStyle">
+				Xilions
+						<div id="circle" [ngClass]="getXilionsStatusCss()"></div>
+			</header>
+				<div class="container">
+					<br>
+					<div class="col-sm-6" align="center" *ngFor="let object of xilionsList" style="height:30%; padding-bottom: 1%; padding-top: -5%;">
+						<div style="height:30px; width:90%; border-radius: 5px; font-weight: bold; color:white" [ngClass]="getStatusCss(object.status,object.chainStatus)"
+							align="center"><span class="centered">{{object.nodeID}}</span> </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<div style="margin-top:-10px; margin-bottom:-10px;">
+		<h1 style="padding-left:20%; font-size: 30px;">&#8691;</h1>
+	</div>
+	<div class="w3-card-4 mainContainer">
+		<header class="container headerStyle">
+	SNI WebService
+				<div id="circle" [ngClass]="getSniStatusCss()"></div>
+	
+		</header>
+		<div class="container">
+			<br>
+			<div class="col-sm-6" align="center" *ngFor="let object of sniList" style="height:30%; padding-bottom: 2%;">
+				<div style="height:30px; width:90%; border-radius: 5px; font-weight: bold; color:white" [ngClass]="getStatusCss(object.status,object.chainStatus)"
+					align="center"><span class="centered">{{object.nodeID}}</span> </div>
+			</div>
+		</div>
+	</div>
+</div>

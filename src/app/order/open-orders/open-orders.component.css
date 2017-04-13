@@ -1,0 +1,19 @@
+.status{
+width:105px;
+height:20px;
+ display: inline-block;
+  margin-bottom: 0;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 0px 3px;
+  font-size: 75%;
+  line-height: 1.42857143;
+  border-radius: 3px;
+  pointer-events: none;
+
+}
